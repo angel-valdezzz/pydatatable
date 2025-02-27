@@ -7,9 +7,11 @@ from unittest.mock import patch, mock_open
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
 sys.path.append(path)
 
-from pydatatable.creator import DataTableCreator
-from pydatatable.saver import DataTableSaver
-from pydatatable.core.datatable import DataTable
+from pydatatable import (
+    DataTableCreator,
+    DataTableSaver,
+    DataTable
+)
 from pydatatable.core.dt_row import DTRow
 from pydatatable.core.dt_field import DTField
 from pydatatable.utils.observer import FieldChangeObserver
