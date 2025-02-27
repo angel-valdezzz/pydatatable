@@ -20,7 +20,10 @@ from pydatatable.io.strategies.reading import (
     JSONFileReadingStrategy,
     XLSXReadingStrategy
 )
-from pydatatable.io.strategies.saving import JsonFileSavingStrategy
+from pydatatable.io.strategies.saving import (
+    JsonFileSavingStrategy,
+    CsvFileSavingStrategy
+)
 from pydatatable.io.file_formats import FileFormats
 from pydatatable.utils.errors import (
     FileExtensionException,
@@ -166,7 +169,6 @@ class TestSaver:
         handle.write.assert_called()
 
     def test_into_csv_error(self, sample_datatable, tmp_path):
-        from pydatatable.io.strategies.saving import CsvFileSavingStrategy
         with patch("csv.DictWriter.writerow", side_effect=Exception("Error")):
             with pytest.raises(FileWritingException):
                 CsvFileSavingStrategy.save(sample_datatable, str(tmp_path / "output.csv"), "utf-8")
