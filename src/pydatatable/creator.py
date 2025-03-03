@@ -9,16 +9,32 @@ from pydatatable.utils.validation import validate_data
 from pydatatable.utils.errors import FileExtensionException
 
 class DataTableCreator:
-    """TestDataCreator"""
+    """Permite crear un DataTable a partir de un archivo o de una lista de diccionarios.
+    
+    Ejemplo:
+
+    ```python
+    from pydatatable import DataTableCreator
+
+    dt = DataTableCreator.from_file("data.json")
+    dt = DataTableCreator.from_records([{"name": "Alice", "age": 30}])
+    ```
+
+    Notas:
+    - El archivo debe tener una extension valida (.csv, .json, .xlsx).
+    - La lista de diccionarios debe tener la misma estructura (lista de diccionarios).
+    - Para lectura de archivos XLSX se debe especificar el nombre de la hoja con el argumento sheet_name.
+    """
+
     @staticmethod
     def from_file(path: str, **kwargs) -> DataTable:
-        """from_file"""
+        """Crea un DataTable a partir de un archivo."""
         data = DataTableCreator._read_data(path, **kwargs)
         return DataTableCreator._create_dt(data)
 
     @staticmethod
     def from_records(records: list[dict[str, Any]]) -> DataTable:
-        """from_records"""
+        """Crea un DataTable a partir de una lista de diccionarios."""
         return DataTableCreator._create_dt(records)
 
     @staticmethod

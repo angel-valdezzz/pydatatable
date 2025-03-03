@@ -2,14 +2,16 @@ import os
 import sys
 import pytest
 from assertpy import assert_that
-from unittest.mock import patch, mock_open
+from unittest.mock import MagicMock, patch, mock_open
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
 sys.path.append(path)
 
-from pydatatable.creator import DataTableCreator
-from pydatatable.saver import DataTableSaver
-from pydatatable.core.datatable import DataTable
+from pydatatable import (
+    DataTableCreator,
+    DataTableSaver,
+    DataTable
+)
 from pydatatable.core.dt_row import DTRow
 from pydatatable.core.dt_field import DTField
 from pydatatable.utils.observer import FieldChangeObserver
@@ -18,11 +20,16 @@ from pydatatable.io.strategies.reading import (
     JSONFileReadingStrategy,
     XLSXReadingStrategy
 )
-from pydatatable.io.strategies.saving import JsonFileSavingStrategy
+from pydatatable.io.strategies.saving import (
+    JsonFileSavingStrategy,
+    CsvFileSavingStrategy
+)
 from pydatatable.io.file_formats import FileFormats
 from pydatatable.utils.errors import (
     FileExtensionException,
-    FileWritingException
+    FileWritingException,
+    SheetNameHasNotEmptyException,
+    SheetNameDoesNotExistException
 )
 
 @pytest.fixture
@@ -148,6 +155,65 @@ class TestReadingStrategies:
         data = strategy.read()
         assert_that(data[1]["age"]).is_equal_to("25")
 
+    @patch("pydatatable.io.strategies.reading.load_workbook")
+    def test_xlsx_reading_strategy(self, mock_load_workbook, tmp_path):
+        # Configurar el mock del workbook
+        mock_workbook = MagicMock()
+        mock_sheet = MagicMock()
+        mock_workbook.__getitem__.return_value = mock_sheet  # Simula workbook["Sheet"]
+        mock_workbook.active = mock_sheet
+        mock_workbook.sheetnames = ["Sheet"]  # ¡Crucial! Incluye "Sheet" en sheetnames
+        mock_load_workbook.return_value = mock_workbook
+
+        # Configurar el mock de la hoja
+        mock_sheet.__getitem__.return_value = [MagicMock(value="name"), MagicMock(value="age")]
+        mock_sheet.iter_rows.return_value = [
+            ("Alice", 30),
+            ("Bob", 25)
+        ]
+
+        # Crear archivo temporal (aunque no se usa realmente gracias al mock)
+        filepath = tmp_path / "test.xlsx"
+        filepath.touch()
+
+        # Ejecutar la estrategia
+        strategy = XLSXReadingStrategy(str(filepath), sheet_name="Sheet")
+        data = strategy.read()
+
+        # Verificaciones
+        assert len(data) == 2
+        assert data[0]["name"] == "Alice"
+        assert data[1]["age"] == "25"
+
+    @patch("pydatatable.io.strategies.reading.load_workbook")
+    def test_xlsx_reading_strategy_sheet_name_does_not_exist(self, mock_load_workbook, tmp_path):
+        # Configurar el mock del workbook
+        mock_workbook = MagicMock()
+        mock_workbook.sheetnames = ["Sheet1", "Sheet2"]  # Hojas existentes, pero no "SheetTest"
+        mock_load_workbook.return_value = mock_workbook
+
+        # Crear archivo temporal (opcional con el mock)
+        filepath = tmp_path / "test.xlsx"
+        filepath.touch()
+
+        # Verificar que se lanza la excepción correcta
+        with pytest.raises(SheetNameDoesNotExistException):
+            XLSXReadingStrategy(str(filepath), sheet_name="SheetTest").read()
+
+    @patch("pydatatable.io.strategies.reading.load_workbook")
+    def test_xlsx_reading_strategy_sheet_name_none(self, mock_load_workbook, tmp_path):
+        # Configurar el mock del workbook (no se usa realmente porque falla antes)
+        mock_workbook = MagicMock()
+        mock_load_workbook.return_value = mock_workbook
+
+        # Crear archivo temporal
+        filepath = tmp_path / "test.xlsx"
+        filepath.touch()
+
+        # Verificar que se lanza la excepción correcta
+        with pytest.raises(SheetNameHasNotEmptyException):
+            XLSXReadingStrategy(str(filepath)).read()
+
 class TestSaver:
     @patch("builtins.open", new_callable=mock_open)
     def test_into_json(self, mock_file, sample_datatable, tmp_path):
@@ -164,7 +230,6 @@ class TestSaver:
         handle.write.assert_called()
 
     def test_into_csv_error(self, sample_datatable, tmp_path):
-        from pydatatable.io.strategies.saving import CsvFileSavingStrategy
         with patch("csv.DictWriter.writerow", side_effect=Exception("Error")):
             with pytest.raises(FileWritingException):
                 CsvFileSavingStrategy.save(sample_datatable, str(tmp_path / "output.csv"), "utf-8")

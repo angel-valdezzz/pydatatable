@@ -2,7 +2,12 @@ import json
 import csv
 from openpyxl import load_workbook
 from pydatatable.io.interfaces.read import ReadingStrategy
-from pydatatable.utils.errors import FileReadingException, FileNotFoundException
+from pydatatable.utils.errors import  (
+    FileReadingException,
+    FileNotFoundException,
+    SheetNameHasNotEmptyException,
+    SheetNameDoesNotExistException
+)
 
 class JSONFileReadingStrategy(ReadingStrategy):
     """JsonFileReadingStrategy"""
@@ -35,7 +40,14 @@ class XLSXReadingStrategy(ReadingStrategy):
         if not self._file_exists():
             raise FileNotFoundError(f"El archivo {self._path} NO Existe verifique la ruta.")
 
+        if self._sheet_name is None:
+            raise SheetNameHasNotEmptyException("sheet_name debe ser definido")
+
         workbook = load_workbook(self._path)
+
+        if self._sheet_name not in workbook.sheetnames:
+            raise SheetNameDoesNotExistException(f"La hoja {self._sheet_name} no existe en el archivo")
+
         hoja = workbook[self._sheet_name]
         encabezados = [celda.value for celda in hoja[1]]
 
