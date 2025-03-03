@@ -15,3 +15,6 @@ class FileExtensionException(PyDataTableError):
 
 class SheetNameHasNotEmptyException(PyDataTableError):
     """SheetNameHasNotEmptyException"""
+
+class SheetNameDoesNotExistException(PyDataTableError):
+    """SheetNameDoesNotExistException"""
