@@ -1,6 +1,6 @@
-## 📌 pydatatable
+## 📌 pytabify
 
-**pydatatable** es una librería de propósito general para la manipulación, transformación y análisis de datos tabulares obtenidos a través de diversos formatos de archivo (**CSV, JSON, Excel**). Ofrece una API intuitiva y flexible que permite crear, validar y persistir estructuras de datos (**DataTables**), facilitando su integración en proyectos de **automatización de pruebas**, **scripts** y **aplicaciones de análisis de datos**.
+**pytabify** es una librería de propósito general para la manipulación, transformación y análisis de datos tabulares obtenidos a través de diversos formatos de archivo (**CSV, JSON, Excel**). Ofrece una API intuitiva y flexible que permite crear, validar y persistir estructuras de datos (**DataTables**), facilitando su integración en proyectos de **automatización de pruebas**, **scripts** y **aplicaciones de análisis de datos**.
 
 ---
 
@@ -18,7 +18,7 @@
 
 ### Usando pip:
 ```sh
-pip install pydatatable
+pip install pytabify
 ```
 
 ---
@@ -27,7 +27,7 @@ pip install pydatatable
 
 ### 📌 Creando un DataTable desde un archivo
 ```python
-from pydatatable.creator import DataTableCreator
+from pytabify.creator import DataTableCreator
 
 # Desde CSV
 datatable = DataTableCreator.from_file("data.csv")
@@ -56,7 +56,7 @@ row["edad"] = 25
 
 ### 📌 Guardando datos
 ```python
-from pydatatable.saver import DataTableSaver
+from pytabify.saver import DataTableSaver
 
 # Guardar en CSV
 DataTableSaver.into_csv(datatable, "output.csv")
@@ -72,12 +72,12 @@ DataTableSaver.into_xlsx(datatable, "output.xlsx")
 
 ## 🛠️ Integración con Pruebas Automatizadas
 
-**pydatatable** está diseñado para funcionar en entornos de **pruebas automatizadas**.  
+**pytabify** está diseñado para funcionar en entornos de **pruebas automatizadas**.  
 Ejemplo de uso en **Robot Framework**:
 
 ```robot
 *** Settings ***
-Library    pydatatable.core.creator     AS    DataTableCreator
+Library    pytabify.core.creator     AS    DataTableCreator
 
 *** Test Cases ***
 Leer datos desde CSV
@@ -96,7 +96,7 @@ Validar un campo específico
 Para ejecutar los tests unitarios:
 
 ```sh
-poetry run pytest -s .\utests\test_pydatatable.py
+poetry run pytest -s .\utests\test_pytabify.py
 ```
 
 ---
