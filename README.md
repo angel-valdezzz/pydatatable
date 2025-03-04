@@ -31,7 +31,7 @@ pip install pytabify
 
 ### 📌 Creando un DataTable desde un archivo
 ```python
-from pytabify.creator import DataTableCreator
+from pytabify import DataTableCreator
 
 # Desde CSV
 datatable = DataTableCreator.from_file("data.csv")
@@ -60,7 +60,7 @@ row["edad"] = 25
 
 ### 📌 Guardando datos
 ```python
-from pytabify.saver import DataTableSaver
+from pytabify import DataTableSaver
 
 # Guardar en CSV
 DataTableSaver.into_csv(datatable, "output.csv")
@@ -81,7 +81,8 @@ Ejemplo de uso en **Robot Framework**:
 
 ```robot
 *** Settings ***
-Library    pytabify.core.creator     AS    DataTableCreator
+Library    pytabify.DataTableCreator     AS    DataTableCreator
+Library    pytabify.DataTableSaver       AS    DataTableSaver
 
 *** Test Cases ***
 Leer datos desde CSV
@@ -91,6 +92,10 @@ Leer datos desde CSV
 Validar un campo específico
     ${row}=    Get From List    ${datatable}    0
     Should Be Equal As Strings    ${row.first_name}    "Alice"
+
+Guardar datos en Excel
+    DataTableSaver.Into Xlsx    ${datatable}    path=output.xlsx
+    File Should Exist    output.xlsx
 ```
 
 ---
