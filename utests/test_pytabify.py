@@ -7,25 +7,25 @@ from unittest.mock import MagicMock, patch, mock_open
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
 sys.path.append(path)
 
-from pydatatable import (
+from pytabify import (
     DataTableCreator,
     DataTableSaver,
     DataTable
 )
-from pydatatable.core.dt_row import DTRow
-from pydatatable.core.dt_field import DTField
-from pydatatable.utils.observer import FieldChangeObserver
-from pydatatable.io.strategies.reading import (
+from pytabify.core.dt_row import DTRow
+from pytabify.core.dt_field import DTField
+from pytabify.utils.observer import FieldChangeObserver
+from pytabify.io.strategies.reading import (
     CSVFileReadingStrategy,
     JSONFileReadingStrategy,
     XLSXReadingStrategy
 )
-from pydatatable.io.strategies.saving import (
+from pytabify.io.strategies.saving import (
     JsonFileSavingStrategy,
     CsvFileSavingStrategy
 )
-from pydatatable.io.file_formats import FileFormats
-from pydatatable.utils.errors import (
+from pytabify.io.file_formats import FileFormats
+from pytabify.utils.errors import (
     FileExtensionException,
     FileWritingException,
     SheetNameHasNotEmptyException,
@@ -51,7 +51,7 @@ class TestDataTableCreator:
         assert_that(dt[0].name.value).is_equal_to("Alice")
         assert_that(dt[0].age.value).is_type_of(str)
 
-    @patch("pydatatable.creator.DataTableCreator._read_data", return_value=[{"country": "Spain"}])
+    @patch("pytabify.creator.DataTableCreator._read_data", return_value=[{"country": "Spain"}])
     def test_from_file(self, mock_read):
         dt = DataTableCreator.from_file("dummy.json")
         assert_that(dt).is_instance_of(DataTable)
@@ -155,7 +155,7 @@ class TestReadingStrategies:
         data = strategy.read()
         assert_that(data[1]["age"]).is_equal_to("25")
 
-    @patch("pydatatable.io.strategies.reading.load_workbook")
+    @patch("pytabify.io.strategies.reading.load_workbook")
     def test_xlsx_reading_strategy(self, mock_load_workbook, tmp_path):
         # Configurar el mock del workbook
         mock_workbook = MagicMock()
@@ -185,7 +185,7 @@ class TestReadingStrategies:
         assert data[0]["name"] == "Alice"
         assert data[1]["age"] == "25"
 
-    @patch("pydatatable.io.strategies.reading.load_workbook")
+    @patch("pytabify.io.strategies.reading.load_workbook")
     def test_xlsx_reading_strategy_sheet_name_does_not_exist(self, mock_load_workbook, tmp_path):
         # Configurar el mock del workbook
         mock_workbook = MagicMock()
@@ -200,7 +200,7 @@ class TestReadingStrategies:
         with pytest.raises(SheetNameDoesNotExistException):
             XLSXReadingStrategy(str(filepath), sheet_name="SheetTest").read()
 
-    @patch("pydatatable.io.strategies.reading.load_workbook")
+    @patch("pytabify.io.strategies.reading.load_workbook")
     def test_xlsx_reading_strategy_sheet_name_none(self, mock_load_workbook, tmp_path):
         # Configurar el mock del workbook (no se usa realmente porque falla antes)
         mock_workbook = MagicMock()

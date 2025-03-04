@@ -1,6 +1,6 @@
 from typing import Any
 import jsonschema
-from pydatatable.core.dt_schema import DATA_TABLE_SCHEMA
+from pytabify.core.dt_schema import DATA_TABLE_SCHEMA
 
 def validate_data(data: Any) -> bool:
     try:

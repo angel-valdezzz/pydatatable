@@ -1,20 +1,20 @@
-class PyDataTableError(Exception):
-    """PyDataTableError"""
+class pytabifyError(Exception):
+    """pytabifyError"""
 
-class FileNotFoundException(PyDataTableError):
+class FileNotFoundException(pytabifyError):
     """FileNotFoundException"""
 
-class FileReadingException(PyDataTableError):
+class FileReadingException(pytabifyError):
     """FileReadingException"""
 
-class FileWritingException(PyDataTableError):
+class FileWritingException(pytabifyError):
     """FileWritingException"""
 
-class FileExtensionException(PyDataTableError):
+class FileExtensionException(pytabifyError):
     """FileReadingException"""
 
-class SheetNameHasNotEmptyException(PyDataTableError):
+class SheetNameHasNotEmptyException(pytabifyError):
     """SheetNameHasNotEmptyException"""
 
-class SheetNameDoesNotExistException(PyDataTableError):
+class SheetNameDoesNotExistException(pytabifyError):
     """SheetNameDoesNotExistException"""

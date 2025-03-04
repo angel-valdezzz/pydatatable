@@ -1,12 +1,12 @@
-from pydatatable.core.datatable import DataTable
-from pydatatable.io.strategies.saving import JsonFileSavingStrategy, CsvFileSavingStrategy, XlsxFileSavingStrategy
+from pytabify.core.datatable import DataTable
+from pytabify.io.strategies.saving import JsonFileSavingStrategy, CsvFileSavingStrategy, XlsxFileSavingStrategy
 
 class DataTableSaver:
     """Permite guardar un DataTable en diferentes formatos
 
     Ejemplo:
     ```
-    from pydatatable import DataTableCreator, DataTableSaver
+    from pytabify import DataTableCreator, DataTableSaver
     dt = DataTableCreator.from_file("data.json")
     DataTableSaver.into_csv(dt, "data.csv")
     ```

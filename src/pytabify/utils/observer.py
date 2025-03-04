@@ -1,5 +1,5 @@
 """FieldChangeObserver"""
-from pydatatable.core.dt_field import DTField
+from pytabify.core.dt_field import DTField
 
 class FieldChangeObserver:
     """FieldChangeObserver"""

@@ -1,8 +1,8 @@
 import json
 import csv
 from openpyxl import load_workbook
-from pydatatable.io.interfaces.read import ReadingStrategy
-from pydatatable.utils.errors import  (
+from pytabify.io.interfaces.read import ReadingStrategy
+from pytabify.utils.errors import  (
     FileReadingException,
     FileNotFoundException,
     SheetNameHasNotEmptyException,

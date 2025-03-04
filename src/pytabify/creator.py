@@ -1,12 +1,12 @@
 import os
 from typing import Any
-from pydatatable.core.datatable import DataTable
-from pydatatable.core.dt_row import DTRow
-from pydatatable.core.dt_field import DTField
-from pydatatable.io.file_formats import FileFormats
-from pydatatable.utils.observer import FieldChangeObserver
-from pydatatable.utils.validation import validate_data
-from pydatatable.utils.errors import FileExtensionException
+from pytabify.core.datatable import DataTable
+from pytabify.core.dt_row import DTRow
+from pytabify.core.dt_field import DTField
+from pytabify.io.file_formats import FileFormats
+from pytabify.utils.observer import FieldChangeObserver
+from pytabify.utils.validation import validate_data
+from pytabify.utils.errors import FileExtensionException
 
 class DataTableCreator:
     """Permite crear un DataTable a partir de un archivo o de una lista de diccionarios.
@@ -14,7 +14,7 @@ class DataTableCreator:
     Ejemplo:
 
     ```python
-    from pydatatable import DataTableCreator
+    from pytabify import DataTableCreator
 
     dt = DataTableCreator.from_file("data.json")
     dt = DataTableCreator.from_records([{"name": "Alice", "age": 30}])

@@ -1,9 +1,9 @@
 import json
 import csv
 from openpyxl import Workbook
-from pydatatable.io.interfaces.save import SavingStrategy
-from pydatatable.core.datatable import DataTable
-from pydatatable.utils.errors import FileWritingException
+from pytabify.io.interfaces.save import SavingStrategy
+from pytabify.core.datatable import DataTable
+from pytabify.utils.errors import FileWritingException
 
 class JsonFileSavingStrategy(SavingStrategy):
     """JsonFileSavingStrategy"""

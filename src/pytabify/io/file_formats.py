@@ -1,6 +1,6 @@
 from enum import Enum
-from pydatatable.io.interfaces.read import ReadingStrategy
-from pydatatable.io.strategies.reading import CSVFileReadingStrategy, JSONFileReadingStrategy, XLSXReadingStrategy
+from pytabify.io.interfaces.read import ReadingStrategy
+from pytabify.io.strategies.reading import CSVFileReadingStrategy, JSONFileReadingStrategy, XLSXReadingStrategy
 
 class FileFormats(Enum):
     """FileFormats"""

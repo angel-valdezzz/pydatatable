@@ -1,6 +1,6 @@
-from pydatatable.core.dt_row import DTRow
-from pydatatable.utils.observer import FieldChangeObserver
-from pydatatable.core.dt_header import DTHeader
+from pytabify.core.dt_row import DTRow
+from pytabify.utils.observer import FieldChangeObserver
+from pytabify.core.dt_header import DTHeader
 
 class DataTable:
     """Representa un conjunto de datos tabulares (filas y columnas).

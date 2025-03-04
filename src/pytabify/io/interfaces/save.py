@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from pydatatable.core.datatable import DataTable
+from pytabify.core.datatable import DataTable
 
 class SavingStrategy(ABC):
     """SavingStrategy"""
