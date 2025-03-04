@@ -1,5 +1,9 @@
 ## 📌 pytabify
 
+**📊 Tabify your data, Python-style**  
+
+*📊 Tabula tus datos con magia Python*
+
 **pytabify** es una librería de propósito general para la manipulación, transformación y análisis de datos tabulares obtenidos a través de diversos formatos de archivo (**CSV, JSON, Excel**). Ofrece una API intuitiva y flexible que permite crear, validar y persistir estructuras de datos (**DataTables**), facilitando su integración en proyectos de **automatización de pruebas**, **scripts** y **aplicaciones de análisis de datos**.
 
 ---
