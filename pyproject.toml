@@ -7,7 +7,7 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.9"
-
+license = {file = "LICENSE"}
 
 dependencies = ["jsonschema (>=4.23.0,<5.0.0)", "openpyxl (>=3.1.5,<4.0.0)"]
 
